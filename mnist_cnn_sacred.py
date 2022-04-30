@@ -2,6 +2,7 @@
 https://www.hhllcks.de/blog/2018/5/4/version-your-machine-learning-models-with-sacred
 import keras from tensorflow not directly from keras
 """
+# imports {{{
 from sacred import Experiment
 from sacred.utils import apply_backspaces_and_linefeeds
 from sacred.observers import MongoObserver
@@ -13,30 +14,35 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras import backend as K
 from keras.callbacks import Callback
+# }}}
 
 # start mongdbservice by mongod --config /opt/homebrew/etc/mongod.conf --fork
 ex = Experiment("mnist_cnn")
+db_name = "sacred_db_1"
+url = '127.0.0.1:27017'
 ex.observers.append(MongoObserver.create(
-    url='127.0.0.1:27017',
-    db_name='sacred_db_1')
+    url=url,
+    db_name=db_name)
 )
 # optional
 ex.captured_out_filter = apply_backspaces_and_linefeeds
 
-# decorate for sacred
+# decorate for sacred {{{
 
 
 @ex.config
 def my_config():
     batch_size = 128
     num_classes = 10
-    epochs = 5
-
-# each time an epoch ends sacred will log the metrics
+    epochs = 3
 
 
 @ex.capture
 def my_metrics(_run, logs):
+    """
+    each time an epoch ends sacred will log the metrics,
+    and plot in omniboard.
+    """
     _run.log_scalar("loss", float(logs.get('loss')))
     _run.log_scalar("accuracy", float(logs.get('accuracy')))
     _run.log_scalar("val_loss", float(logs.get('val_loss')))
@@ -102,3 +108,6 @@ def my_main(batch_size, num_classes, epochs):
     score = model.evaluate(x_test, y_test, verbose=0)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
+    print("open omniboard by the following command...",
+          f"omniboard -m {url}:{db_name}", end="\n", sep='\n')
+# }}}

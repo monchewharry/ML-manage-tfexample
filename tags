@@ -26,7 +26,8 @@ activation	mnist_cnn.py	/^                 activation='relu',$/;"	v
 apply_backspaces_and_linefeeds	mnist_cnn_sacred.py	/^from sacred.utils import apply_backspaces_and_linefeeds$/;"	i
 batch_size	mnist_cnn.py	/^          batch_size=batch_size,$/;"	v
 batch_size	mnist_cnn.py	/^batch_size = 128$/;"	v
-db_name	mnist_cnn_sacred.py	/^    db_name='sacred_db_1')$/;"	v
+db_name	mnist_cnn_sacred.py	/^    db_name=db_name)$/;"	v
+db_name	mnist_cnn_sacred.py	/^db_name = "sacred_db_1"$/;"	v
 epochs	mnist_cnn.py	/^          epochs=epochs,$/;"	v
 epochs	mnist_cnn.py	/^epochs = 12$/;"	v
 ex	mnist_cnn_sacred.py	/^ex = Experiment("mnist_cnn")$/;"	v
@@ -46,7 +47,8 @@ num_classes	mnist_cnn.py	/^num_classes = 10$/;"	v
 on_epoch_end	mnist_cnn_sacred.py	/^        def on_epoch_end(self, _, logs={}):$/;"	m	class:my_main.LogMetrics
 optimizer	mnist_cnn.py	/^              optimizer=keras.optimizers.Adadelta(),$/;"	v
 score	mnist_cnn.py	/^score = model.evaluate(x_test, y_test, verbose=0)$/;"	v
-url	mnist_cnn_sacred.py	/^    url='127.0.0.1:27017',$/;"	v
+url	mnist_cnn_sacred.py	/^    url=url,$/;"	v
+url	mnist_cnn_sacred.py	/^url = '127.0.0.1:27017'$/;"	v
 validation_data	mnist_cnn.py	/^          validation_data=(x_test, y_test))$/;"	v
 verbose	mnist_cnn.py	/^          verbose=1,$/;"	v
 x_test	mnist_cnn.py	/^    x_test = x_test.reshape(x_test.shape[0], 1, img_rows, img_cols)$/;"	v
