@@ -44,9 +44,10 @@ def my_metrics(_run, logs):
     and plot in omniboard.
     """
     _run.log_scalar("loss", float(logs.get('loss')))
-    _run.log_scalar("accuracy", float(logs.get('accuracy')))
+    _run.log_scalar("acc", float(logs.get('accuracy')))
     _run.log_scalar("val_loss", float(logs.get('val_loss')))
-    _run.result = float(logs.get('val_loss'))
+    _run.log_scalar("val_acc", float(logs.get('val_accuracy')))
+    _run.result = float(logs.get('val_accuracy'))
 
 
 @ex.automain
