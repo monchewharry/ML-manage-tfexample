@@ -13,7 +13,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras import backend as K
-from keras.callbacks import Callback
+# from tensorflow.keras.callbacks import Callback
+from tensorflow.keras import callbacks
 # }}}
 
 # start mongdbservice by mongod --config /opt/homebrew/etc/mongod.conf --fork
@@ -96,16 +97,19 @@ def my_main(batch_size, num_classes, epochs):
                   optimizer=keras.optimizers.Adadelta(),
                   metrics=['accuracy'])
 
-    class LogMetrics(Callback):
-        def on_epoch_end(self, _, logs={}):
-            my_metrics(logs=logs)
-
+    # class LogMetrics(Callback):
+    #     def on_epoch_end(self, _, logs={}):
+    #         my_metrics(logs=logs)
+    # # callback method 2
+    log_callback = callbacks.LambdaCallback(
+        on_epoch_end=lambda _, logs: my_metrics(logs=logs))
     model.fit(x_train, y_train,
               batch_size=batch_size,
               epochs=epochs,
               verbose=1,
               validation_data=(x_test, y_test),
-              callbacks=[LogMetrics()])
+              callbacks=[log_callback]  # [LogMetrics()]
+              )
     score = model.evaluate(x_test, y_test, verbose=0)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
